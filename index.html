@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LARK · Digital Seed Archive</title>
+<meta name="description" content="Submit a language archive bundle to the LARK Digital Seed Archive — a preservation project for endangered and heritage languages.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400&family=Libre+Franklin:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+:root{
+  --ink:#1c1a17;--paper:#f6f2ea;--surface:#eee9de;--surface2:#e6e0d3;
+  --warm-mid:#a89880;--border:rgba(28,26,23,0.12);--border2:rgba(28,26,23,0.22);
+  --teal:#1a6b5e;--teal-light:#d0e8e4;--amber:#8a5e0a;--amber-light:#f0e4c8;
+  --red:#a02a20;--red-light:#f5dcd9;
+  --serif:'Playfair Display',Georgia,serif;
+  --sans:'Libre Franklin',system-ui,sans-serif;
+  --mono:'DM Mono','Courier New',monospace;
+  --radius:6px;--radius-lg:10px;--max-w:860px;--t:0.18s ease
+}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-weight:300;font-size:15px;line-height:1.7;min-height:100vh;display:flex;flex-direction:column}
+a{color:var(--teal);text-decoration:underline;text-underline-offset:2px}
+a:hover{text-decoration:none}
+
+/* HEADER */
+.site-header{border-bottom:1px solid var(--border);background:var(--paper);position:sticky;top:0;z-index:100}
+.header-inner{max-width:var(--max-w);margin:0 auto;padding:0 32px;height:56px;display:flex;align-items:center;gap:24px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
+.logo-mark{width:28px;height:28px;border:1.5px solid var(--teal);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--teal);flex-shrink:0}
+.logo-text{font-family:var(--serif);font-size:18px;font-weight:700;color:var(--ink);letter-spacing:-0.01em}
+.logo-sub{font-family:var(--mono);font-size:10px;letter-spacing:0.1em;color:var(--warm-mid);text-transform:uppercase}
+.site-nav{margin-left:auto;display:flex;gap:4px}
+.nav-link{font-family:var(--mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--warm-mid);text-decoration:none;padding:6px 12px;border-radius:var(--radius);transition:color var(--t),background var(--t)}
+.nav-link:hover{color:var(--ink);background:var(--surface)}
+.nav-link.active{color:var(--teal)}
+
+/* PAGE INTRO */
+.page-intro{border-bottom:1px solid var(--border);padding:48px 0 40px}
+.page-intro-inner{max-width:var(--max-w);margin:0 auto;padding:0 32px}
+.page-label{font-family:var(--mono);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--warm-mid);margin-bottom:8px}
+.page-title{font-family:var(--serif);font-size:clamp(28px,4vw,40px);font-weight:700;line-height:1.1;letter-spacing:-0.02em;margin-bottom:12px}
+.page-desc{font-size:15px;color:#4a4540;max-width:600px;line-height:1.75}
+
+/* FORM SHELL */
+.form-shell{max-width:var(--max-w);margin:0 auto;padding:48px 32px 64px;flex:1}
+
+/* STEP INDICATOR */
+.step-indicator{display:flex;align-items:center;margin-bottom:40px}
+.step-dot{display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0}
+.step-dot-num{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;color:var(--warm-mid);background:var(--paper);transition:all var(--t)}
+.step-dot-label{font-family:var(--mono);font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--warm-mid);transition:color var(--t)}
+.step-dot.active .step-dot-num{border-color:var(--teal);color:var(--teal);background:var(--teal-light)}
+.step-dot.active .step-dot-label{color:var(--teal)}
+.step-dot.done .step-dot-num{border-color:var(--teal);background:var(--teal);color:white;font-size:13px}
+.step-connector{flex:1;height:1px;background:var(--border);margin:0 8px 18px;transition:background var(--t)}
+.step-connector.done{background:var(--teal)}
+
+/* FORM STEPS */
+.form-step{display:none}
+.form-step.active{display:block}
+.step-title{font-family:var(--serif);font-size:22px;font-weight:700;margin-bottom:24px;letter-spacing:-0.01em}
+.step-desc{font-size:14px;color:#4a4540;line-height:1.7;margin-bottom:20px}
+
+/* FIELDS */
+.field{display:flex;flex-direction:column;gap:5px;margin-bottom:20px}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.field-label{font-family:var(--mono);font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink);font-weight:400}
+.req{color:var(--teal)}
+.field-hint{font-size:12px;color:var(--warm-mid);line-height:1.5}
+.field-hint a{color:var(--warm-mid)}
+
+input[type=text],input[type=email],input[type=date],select,textarea{
+  font-family:var(--sans);font-size:14px;font-weight:300;color:var(--ink);
+  background:white;border:1px solid var(--border2);border-radius:var(--radius);
+  padding:10px 12px;outline:none;transition:border-color var(--t),box-shadow var(--t);
+  width:100%;-webkit-appearance:none;appearance:none
+}
+input[type=date]{color-scheme:light}
+select{background-image:url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23a89880' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px;cursor:pointer}
+textarea{resize:vertical;min-height:80px;line-height:1.6}
+input:focus,select:focus,textarea:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(26,107,94,0.1)}
+input.error,select.error,textarea.error{border-color:var(--red);box-shadow:0 0 0 3px rgba(160,42,32,0.1)}
+
+/* NOTICE */
+.notice{padding:12px 16px;border-radius:var(--radius);font-size:13px;line-height:1.6;margin-bottom:20px}
+.notice-amber{background:var(--amber-light);color:var(--amber);border:1px solid rgba(138,94,10,0.2)}
+
+/* DROP ZONE */
+.drop-zone{border:1.5px dashed var(--border2);border-radius:var(--radius-lg);padding:40px 24px;text-align:center;cursor:pointer;transition:border-color var(--t),background var(--t);background:white;position:relative;margin-bottom:12px}
+.drop-zone:hover,.drop-zone.drag-over{border-color:var(--teal);background:var(--teal-light)}
+.drop-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;padding:0;border:none;border-radius:0;box-shadow:none}
+.drop-zone svg{display:block;margin:0 auto 12px;color:var(--warm-mid)}
+.drop-main{font-size:14px;margin-bottom:4px}
+.drop-link{color:var(--teal);text-decoration:underline;text-underline-offset:2px;cursor:pointer}
+.drop-sub{font-family:var(--mono);font-size:10px;letter-spacing:0.1em;color:var(--warm-mid);text-transform:uppercase}
+
+/* FILE LIST */
+.file-list{list-style:none;display:flex;flex-direction:column;gap:6px;margin-bottom:20px}
+.file-item{display:flex;align-items:center;gap:12px;padding:10px 14px;background:white;border:1px solid var(--border);border-radius:var(--radius)}
+.file-badge{font-family:var(--mono);font-size:8px;letter-spacing:0.08em;text-transform:uppercase;padding:2px 7px;border-radius:3px;background:var(--surface);color:var(--warm-mid);flex-shrink:0}
+.file-badge.audio{background:var(--teal-light);color:var(--teal)}
+.file-badge.video{background:var(--amber-light);color:var(--amber)}
+.file-info{flex:1;min-width:0}
+.file-name{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.file-size{font-family:var(--mono);font-size:10px;color:var(--warm-mid)}
+.file-remove{background:none;border:none;color:var(--warm-mid);cursor:pointer;font-size:18px;line-height:1;padding:2px;transition:color var(--t);flex-shrink:0}
+.file-remove:hover{color:var(--red)}
+
+/* RADIO GROUP */
+.radio-group{display:flex;flex-direction:column;gap:6px}
+.radio-option{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;background:white;border:1px solid var(--border);border-radius:var(--radius);cursor:pointer;transition:border-color var(--t),background var(--t)}
+.radio-option:hover{border-color:var(--border2)}
+.radio-option input[type=radio]{display:none}
+.radio-custom{width:16px;height:16px;border-radius:50%;border:1.5px solid var(--border2);flex-shrink:0;margin-top:2px;transition:all var(--t)}
+.radio-option:has(input:checked){border-color:var(--teal);background:var(--teal-light)}
+.radio-option:has(input:checked) .radio-custom{border-color:var(--teal);background:var(--teal);box-shadow:inset 0 0 0 3px var(--teal-light)}
+.radio-text{font-size:13px;line-height:1.55}
+.radio-text strong{font-weight:500}
+
+/* CHECKBOXES */
+.checkbox-option{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px}
+.checkbox-option input[type=checkbox]{width:16px;height:16px;min-width:16px;border:1.5px solid var(--border2);border-radius:3px;background:white;cursor:pointer;-webkit-appearance:none;appearance:none;margin-top:2px;transition:all var(--t);position:relative}
+.checkbox-option input[type=checkbox]:checked{background:var(--teal);border-color:var(--teal)}
+.checkbox-option input[type=checkbox]:checked::after{content:'';position:absolute;left:3px;top:1px;width:8px;height:5px;border-left:1.5px solid white;border-bottom:1.5px solid white;transform:rotate(-45deg)}
+.checkbox-option label{font-size:13px;line-height:1.6;cursor:pointer}
+.consent-checks{background:var(--surface);border-radius:var(--radius-lg);padding:20px;margin-top:8px;margin-bottom:20px}
+.consent-checks-label{font-family:var(--mono);font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--warm-mid);margin-bottom:14px}
+
+/* BUTTONS */
+.step-nav{display:flex;gap:10px;margin-top:28px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 22px;border-radius:var(--radius);font-family:var(--sans);font-size:14px;font-weight:500;border:1.5px solid transparent;cursor:pointer;transition:all var(--t);text-decoration:none;line-height:1}
+.btn:disabled{opacity:0.5;cursor:not-allowed;pointer-events:none}
+.btn-primary{background:var(--teal);color:white;border-color:var(--teal)}
+.btn-primary:hover{background:#155a4e;border-color:#155a4e;color:white;text-decoration:none}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--border2)}
+.btn-ghost:hover{background:var(--surface);color:var(--ink);text-decoration:none}
+.btn-loading{position:relative;color:transparent!important;pointer-events:none}
+.btn-loading::after{content:'';position:absolute;width:14px;height:14px;border:2px solid rgba(255,255,255,0.4);border-top-color:white;border-radius:50%;animation:spin .6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* SUCCESS */
+.success-state{text-align:center;padding:48px 0}
+.success-icon{width:64px;height:64px;border-radius:50%;background:var(--teal-light);color:var(--teal);display:flex;align-items:center;justify-content:center;margin:0 auto 24px}
+.success-id{font-family:var(--mono);font-size:13px;letter-spacing:0.05em;color:var(--teal);background:var(--teal-light);display:inline-block;padding:8px 18px;border-radius:4px;margin-top:16px}
+
+/* ABOUT STRIP */
+.about-strip{background:var(--surface);border-top:1px solid var(--border)}
+.about-strip-inner{max-width:var(--max-w);margin:0 auto;padding:48px 32px;display:grid;grid-template-columns:repeat(3,1fr);gap:40px}
+.about-title{font-family:var(--serif);font-size:16px;font-weight:700;margin-bottom:10px}
+.about-block{font-size:14px;color:#4a4540;line-height:1.75}
+
+/* FOOTER */
+.site-footer{border-top:1px solid var(--border);background:var(--paper);margin-top:auto}
+.footer-inner{max-width:var(--max-w);margin:0 auto;padding:24px 32px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.footer-logo{font-family:var(--serif);font-size:16px;font-weight:700}
+.footer-sep{color:var(--warm-mid)}
+.footer-org{font-size:13px;color:var(--warm-mid)}
+.footer-org a{color:var(--warm-mid)}
+.footer-spacer{flex:1}
+.footer-link{font-family:var(--mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--warm-mid);text-decoration:none;padding:4px 8px}
+.footer-link:hover{color:var(--ink)}
+
+/* RESPONSIVE */
+@media(max-width:640px){
+  .header-inner{padding:0 16px}
+  .logo-sub{display:none}
+  .page-intro-inner{padding:0 16px}
+  .page-intro{padding:32px 0 28px}
+  .form-shell{padding:32px 16px 48px}
+  .field-row{grid-template-columns:1fr}
+  .about-strip-inner{grid-template-columns:1fr;gap:24px;padding:32px 16px}
+  .footer-inner{padding:20px 16px}
+  .step-dot-label{display:none}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">
+      <span class="logo-mark">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 11 Q6 4 9 6 Q11 4 13 5 Q11 7 10 9 Q8 12 5 12 Z"/>
+          <path d="M10 9 L13 12"/>
+        </svg>
+      </span>
+      <span class="logo-text">LARK</span>
+      <span class="logo-sub">Digital Seed Archive</span>
+    </a>
+    <nav class="site-nav">
+      <a href="index.html" class="nav-link active">Submit</a>
+      <a href="archive.html" class="nav-link">Browse</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="page-intro">
+    <div class="page-intro-inner">
+      <p class="page-label">Submission portal</p>
+      <h1 class="page-title">Submit an archive bundle</h1>
+      <p class="page-desc">Use this form to submit a language recording bundle — audio or video recordings, transcripts, and documentation — to the LARK archive. Every submission is reviewed before being made available.</p>
+    </div>
+  </div>
+
+  <div class="form-shell">
+
+    <div class="step-indicator">
+      <div class="step-dot active" id="dot-1"><span class="step-dot-num">1</span><span class="step-dot-label">Language</span></div>
+      <div class="step-connector" id="con-1"></div>
+      <div class="step-dot" id="dot-2"><span class="step-dot-num">2</span><span class="step-dot-label">Speaker</span></div>
+      <div class="step-connector" id="con-2"></div>
+      <div class="step-dot" id="dot-3"><span class="step-dot-num">3</span><span class="step-dot-label">Files</span></div>
+      <div class="step-connector" id="con-3"></div>
+      <div class="step-dot" id="dot-4"><span class="step-dot-num">4</span><span class="step-dot-label">Consent</span></div>
+    </div>
+
+    <form id="lark-form" novalidate>
+
+      <!-- STEP 1 -->
+      <div class="form-step active" id="step-1">
+        <h2 class="step-title">Language identification</h2>
+        <div class="field-row">
+          <div class="field">
+            <label class="field-label" for="lang-name">Language name <span class="req">*</span></label>
+            <input type="text" id="lang-name" name="lang_name" placeholder="e.g. Somali, Navajo, Tlingit" autocomplete="off" required>
+          </div>
+          <div class="field">
+            <label class="field-label" for="lang-iso">ISO 639-3 code <span class="req">*</span></label>
+            <input type="text" id="lang-iso" name="lang_iso" placeholder="e.g. som" maxlength="3" autocomplete="off" required>
+            <span class="field-hint">3-letter code — look up at <a href="https://iso639-3.sil.org" target="_blank" rel="noopener">iso639-3.sil.org</a></span>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label class="field-label" for="lang-dialect">Dialect or variety</label>
+            <input type="text" id="lang-dialect" name="lang_dialect" placeholder="If applicable">
+          </div>
+          <div class="field">
+            <label class="field-label" for="lang-family">Language family</label>
+            <select id="lang-family" name="lang_family">
+              <option value="">Select…</option>
+              <option>Afro-Asiatic</option><option>Algonquian</option>
+              <option>Athabascan-Eyak-Tlingit</option><option>Austronesian</option>
+              <option>Hmong-Mien</option><option>Indo-European</option>
+              <option>Iroquoian</option><option>Muskogean</option>
+              <option>Na-Dene</option><option>Niger-Congo</option>
+              <option>Nilo-Saharan</option><option>Salishan</option>
+              <option>Siouan</option><option>Sino-Tibetan</option>
+              <option>Tai-Kadai</option><option>Uto-Aztecan</option>
+              <option>Yupik-Inuit</option><option>Other / Unknown</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label class="field-label" for="vitality">Vitality status</label>
+            <select id="vitality" name="vitality">
+              <option value="">Select if known…</option>
+              <option>Safe</option><option>Vulnerable</option>
+              <option>Definitely Endangered</option><option>Severely Endangered</option>
+              <option>Critically Endangered</option><option>Dormant / No L1 speakers</option>
+              <option>Unknown</option>
+            </select>
+            <span class="field-hint">From your LVA assessment, if completed.</span>
+          </div>
+          <div class="field">
+            <label class="field-label" for="speaker-count">Estimated speaker count</label>
+            <input type="text" id="speaker-count" name="speaker_count" placeholder="e.g. ~500, fewer than 50, unknown">
+          </div>
+        </div>
+        <div class="step-nav">
+          <button type="button" class="btn btn-primary" onclick="goStep(2)">Continue</button>
+        </div>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="form-step" id="step-2">
+        <h2 class="step-title">Speaker &amp; session</h2>
+        <div class="notice notice-amber">Speaker real names are never stored publicly. Use a speaker code (SP-01, SP-02, etc.) from your consent forms.</div>
+        <div class="field-row">
+          <div class="field">
+            <label class="field-label" for="speaker-code">Speaker code <span class="req">*</span></label>
+            <input type="text" id="speaker-code" name="speaker_code" placeholder="e.g. SP-01" required>
+          </div>
+          <div class="field">
+            <label class="field-label" for="session-date">Recording date <span class="req">*</span></label>
+            <input type="date" id="session-date" name="session_date" required>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label class="field-label" for="age-range">Speaker age range</label>
+            <select id="age-range" name="age_range">
+              <option value="">Unknown</option>
+              <option>Under 30</option><option>30–50</option>
+              <option>50–65</option><option>65–80</option><option>Over 80</option>
+            </select>
+          </div>
+          <div class="field">
+            <label class="field-label" for="session-type">Session type <span class="req">*</span></label>
+            <select id="session-type" name="session_type" required>
+              <option value="">Select…</option>
+              <option value="SEP">SEP — Story Elicitation</option>
+              <option value="APM">APM — Apprentice Session</option>
+              <option value="INT">INT — Interview</option>
+              <option value="EVT">EVT — Community Event</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label class="field-label" for="topics">Topics or themes covered</label>
+          <textarea id="topics" name="topics" rows="3" placeholder="Brief description of what was discussed or narrated…"></textarea>
+        </div>
+        <div class="field">
+          <label class="field-label" for="submitter-name">Your name <span class="req">*</span></label>
+          <input type="text" id="submitter-name" name="submitter_name" placeholder="Student, teacher, or community member" required>
+        </div>
+        <div class="field">
+          <label class="field-label" for="submitter-email">Your email <span class="req">*</span></label>
+          <input type="email" id="submitter-email" name="submitter_email" placeholder="For confirmation and follow-up" required>
+        </div>
+        <div class="step-nav">
+          <button type="button" class="btn btn-ghost" onclick="goStep(1)">Back</button>
+          <button type="button" class="btn btn-primary" onclick="goStep(3)">Continue</button>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="form-step" id="step-3">
+        <h2 class="step-title">Upload files</h2>
+        <p class="step-desc">Upload your recording and any supporting documents. WAV or MP4 preferred for recordings.</p>
+        <div class="drop-zone" id="drop-zone">
+          <input type="file" id="file-input" name="files" multiple accept=".wav,.mp4,.mp3,.m4a,.pdf,.docx,.txt,.doc">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 20V8M9 13l5-5 5 5"/><path d="M5 22v1a2 2 0 002 2h14a2 2 0 002-2v-1"/>
+          </svg>
+          <p class="drop-main">Drop files here or <span class="drop-link">browse</span></p>
+          <p class="drop-sub">WAV · MP4 · MP3 · PDF · DOCX · TXT</p>
+        </div>
+        <ul class="file-list" id="file-list"></ul>
+        <div class="step-nav">
+          <button type="button" class="btn btn-ghost" onclick="goStep(2)">Back</button>
+          <button type="button" class="btn btn-primary" onclick="goStep(4)">Continue</button>
+        </div>
+      </div>
+
+      <!-- STEP 4 -->
+      <div class="form-step" id="step-4">
+        <h2 class="step-title">Consent &amp; access</h2>
+        <div class="field">
+          <label class="field-label" for="consent-ref">Consent form reference <span class="req">*</span></label>
+          <input type="text" id="consent-ref" name="consent_ref" placeholder="e.g. CONSENT-2025-003" required>
+          <span class="field-hint">The reference number from your signed consent form.</span>
+        </div>
+        <div class="field">
+          <label class="field-label">Access level <span class="req">*</span></label>
+          <div class="radio-group">
+            <label class="radio-option"><input type="radio" name="access_level" value="archive-only" checked><span class="radio-custom"></span><span class="radio-text"><strong>Archive only</strong> — stored securely, accessible to archivists only</span></label>
+            <label class="radio-option"><input type="radio" name="access_level" value="research"><span class="radio-custom"></span><span class="radio-text"><strong>Archive + research</strong> — researchers may request access with speaker approval</span></label>
+            <label class="radio-option"><input type="radio" name="access_level" value="public"><span class="radio-custom"></span><span class="radio-text"><strong>Community public</strong> — visible in the LARK browse archive</span></label>
+            <label class="radio-option"><input type="radio" name="access_level" value="restricted"><span class="radio-custom"></span><span class="radio-text"><strong>Restricted</strong> — sacred or culturally sensitive; community authorization required</span></label>
+          </div>
+        </div>
+        <div class="field">
+          <label class="field-label" for="restrictions">Speaker restrictions or requests</label>
+          <textarea id="restrictions" name="restrictions" rows="2" placeholder="Any specific instructions from the speaker…"></textarea>
+        </div>
+        <div class="field">
+          <label class="field-label">Language triage flag</label>
+          <div class="checkbox-option">
+            <input type="checkbox" id="triage" name="triage">
+            <label for="triage">Flag this bundle — speaker may be one of fewer than 50 remaining speakers, or recording may contain previously undocumented material.</label>
+          </div>
+        </div>
+        <div class="consent-checks">
+          <p class="consent-checks-label">Before submitting, confirm:</p>
+          <div class="checkbox-option"><input type="checkbox" id="check-1" name="check_1" required><label for="check-1">The speaker was informed and gave explicit consent for this submission.</label></div>
+          <div class="checkbox-option"><input type="checkbox" id="check-2" name="check_2" required><label for="check-2">No sacred or restricted material is included without community authorization.</label></div>
+          <div class="checkbox-option"><input type="checkbox" id="check-3" name="check_3" required><label for="check-3">I understand the speaker retains the right to withdraw consent at any time.</label></div>
+        </div>
+        <div class="step-nav">
+          <button type="button" class="btn btn-ghost" onclick="goStep(3)">Back</button>
+          <button type="submit" class="btn btn-primary" id="submit-btn">Submit bundle</button>
+        </div>
+      </div>
+
+      <!-- SUCCESS -->
+      <div class="form-step success-state" id="step-success">
+        <div class="success-icon">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="16" cy="16" r="13"/><path d="M10 16l4 4 8-8"/>
+          </svg>
+        </div>
+        <h2 class="step-title">Bundle received</h2>
+        <p class="step-desc">Your submission has been sent to the LARK archive. A confirmation has been sent to your email, and the archive team at <a href="mailto:contact@lostworldsinstitute.org">contact@lostworldsinstitute.org</a> has been notified.</p>
+        <p class="step-desc" style="margin-top:8px">If your bundle was flagged for triage, a coordinator will be in touch within 48 hours.</p>
+        <div class="success-id" id="success-bundle-id"></div>
+        <div class="step-nav" style="margin-top:2rem;justify-content:center">
+          <a href="archive.html" class="btn btn-ghost">Browse the archive</a>
+          <button type="button" class="btn btn-primary" onclick="resetForm()">Submit another</button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+
+  <div class="about-strip">
+    <div class="about-strip-inner">
+      <div class="about-block">
+        <p class="about-title">What is LARK?</p>
+        <p>LARK (Language Archive and Recovery Kit) is a preservation education project that equips students, teachers, and community members to document endangered and heritage languages. This archive is where that documentation lives.</p>
+      </div>
+      <div class="about-block">
+        <p class="about-title">Who can submit?</p>
+        <p>Any student, educator, or community member who has made a recording with appropriate consent. You don't need to be a linguist. You do need a signed consent form from your speaker.</p>
+      </div>
+      <div class="about-block">
+        <p class="about-title">What happens next?</p>
+        <p>The archive team reviews every bundle. Accepted submissions are assigned a permanent LARK-ID. If the language needs urgent attention, a professional linguist may be connected to your school or community.</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <span class="footer-logo">LARK</span>
+    <span class="footer-sep">—</span>
+    <span class="footer-org">A project of <a href="mailto:contact@lostworldsinstitute.org">Lost Worlds Institute</a></span>
+    <span class="footer-spacer"></span>
+    <a href="index.html" class="footer-link">Submit</a>
+    <a href="archive.html" class="footer-link">Browse</a>
+  </div>
+</footer>
+
+<script>
+var FORMSPREE = 'https://formspree.io/f/mzdjlebp';
+var currentStep = 1;
+var attachedFiles = [];
+
+function goStep(target) {
+  if (target > currentStep && !validateStep(currentStep)) return;
+  document.getElementById('step-' + currentStep).classList.remove('active');
+  document.getElementById('step-' + target).classList.add('active');
+  var prev = currentStep;
+  currentStep = target;
+  updateDots(prev);
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function updateDots(prev) {
+  for (var i = 1; i <= 4; i++) {
+    var dot = document.getElementById('dot-' + i);
+    var num = dot.querySelector('.step-dot-num');
+    dot.classList.remove('active', 'done');
+    if (i === currentStep) { dot.classList.add('active'); num.textContent = i; }
+    else if (i < currentStep) { dot.classList.add('done'); num.textContent = '✓'; }
+    else { num.textContent = i; }
+    if (i < 4) {
+      var con = document.getElementById('con-' + i);
+      con.classList.toggle('done', i < currentStep);
+    }
+  }
+}
+
+function validateStep(step) {
+  var el = document.getElementById('step-' + step);
+  var required = el.querySelectorAll('[required]');
+  var ok = true;
+  required.forEach(function(f) {
+    f.classList.remove('error');
+    var empty = f.type === 'checkbox' ? !f.checked : !f.value.trim();
+    if (empty) { f.classList.add('error'); ok = false; }
+  });
+  if (!ok) {
+    var first = el.querySelector('.error');
+    if (first) { first.scrollIntoView({behavior:'smooth',block:'center'}); if (first.focus) first.focus(); }
+  }
+  return ok;
+}
+
+// Drop zone
+var zone = document.getElementById('drop-zone');
+var input = document.getElementById('file-input');
+zone.addEventListener('dragover', function(e) { e.preventDefault(); zone.classList.add('drag-over'); });
+zone.addEventListener('dragleave', function() { zone.classList.remove('drag-over'); });
+zone.addEventListener('drop', function(e) { e.preventDefault(); zone.classList.remove('drag-over'); addFiles(Array.from(e.dataTransfer.files)); });
+input.addEventListener('change', function() { addFiles(Array.from(input.files)); input.value = ''; });
+
+function addFiles(files) {
+  var list = document.getElementById('file-list');
+  files.forEach(function(file) {
+    if (attachedFiles.find(function(f) { return f.name === file.name; })) return;
+    attachedFiles.push(file);
+    var ext = file.name.split('.').pop().toLowerCase();
+    var type = ['wav','mp3','m4a','aiff','flac'].includes(ext) ? 'audio' : ['mp4','mov','webm','avi'].includes(ext) ? 'video' : 'doc';
+    var size = file.size > 1048576 ? (file.size/1048576).toFixed(1)+' MB' : (file.size/1024).toFixed(0)+' KB';
+    var label = type === 'audio' ? 'Audio' : type === 'video' ? 'Video' : ext.toUpperCase();
+    var li = document.createElement('li');
+    li.className = 'file-item';
+    li.dataset.name = file.name;
+    li.innerHTML = '<span class="file-badge '+type+'">'+label+'</span><span class="file-info"><span class="file-name">'+esc(file.name)+'</span><span class="file-size">'+size+'</span></span><button type="button" class="file-remove" aria-label="Remove">&times;</button>';
+    li.querySelector('.file-remove').addEventListener('click', function() {
+      attachedFiles = attachedFiles.filter(function(f) { return f.name !== file.name; });
+      li.remove();
+    });
+    list.appendChild(li);
+  });
+}
+
+// Form submit
+document.getElementById('lark-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  if (!validateStep(4)) return;
+  var btn = document.getElementById('submit-btn');
+  btn.classList.add('btn-loading');
+  btn.disabled = true;
+
+  var data = new FormData();
+  data.append('_subject', 'New LARK Bundle — ' + v('lang-name'));
+  data.append('_replyto', v('submitter-email'));
+  data.append('Language', v('lang-name'));
+  data.append('ISO code', v('lang-iso'));
+  data.append('Dialect', v('lang-dialect'));
+  data.append('Family', v('lang-family'));
+  data.append('Vitality', v('vitality'));
+  data.append('Speaker count', v('speaker-count'));
+  data.append('Speaker code', v('speaker-code'));
+  data.append('Recording date', v('session-date'));
+  data.append('Age range', v('age-range'));
+  data.append('Session type', v('session-type'));
+  data.append('Topics', v('topics'));
+  data.append('Submitter name', v('submitter-name'));
+  data.append('Submitter email', v('submitter-email'));
+  data.append('Consent ref', v('consent-ref'));
+  data.append('Access level', checkedRadio('access_level'));
+  data.append('Restrictions', v('restrictions'));
+  data.append('Triage flagged', document.getElementById('triage').checked ? 'Yes' : 'No');
+  if (attachedFiles.length) data.append('Files (names)', attachedFiles.map(function(f){return f.name;}).join(', '));
+
+  fetch(FORMSPREE, {method:'POST', body:data, headers:{'Accept':'application/json'}})
+    .then(function(r) { if (r.ok) return r.json(); return r.json().then(function(d){throw new Error(d.error||'Failed');}); })
+    .then(function() { showSuccess(); })
+    .catch(function(err) {
+      btn.classList.remove('btn-loading'); btn.disabled = false;
+      alert('Something went wrong: ' + err.message + '\n\nPlease email contact@lostworldsinstitute.org directly.');
+    });
+});
+
+function showSuccess() {
+  document.querySelectorAll('.form-step').forEach(function(s){s.classList.remove('active');});
+  document.getElementById('step-success').classList.add('active');
+  var iso = (v('lang-iso')||'UNK').toUpperCase();
+  var date = (v('session-date')||new Date().toISOString().slice(0,10)).replace(/-/g,'');
+  var rand = Math.random().toString(36).slice(2,6).toUpperCase();
+  document.getElementById('success-bundle-id').textContent = 'LARK-' + iso + '-' + date + '-' + rand;
+  for (var i=1;i<=4;i++){var d=document.getElementById('dot-'+i);d.classList.remove('active');d.classList.add('done');d.querySelector('.step-dot-num').textContent='✓';if(i<4)document.getElementById('con-'+i).classList.add('done');}
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function resetForm() {
+  document.getElementById('lark-form').reset();
+  attachedFiles = [];
+  document.getElementById('file-list').innerHTML = '';
+  document.querySelectorAll('.form-step').forEach(function(s){s.classList.remove('active');});
+  document.getElementById('step-1').classList.add('active');
+  currentStep = 1;
+  updateDots();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function v(id) { var el=document.getElementById(id); return el?el.value.trim():''; }
+function checkedRadio(name) { var el=document.querySelector('input[name="'+name+'"]:checked'); return el?el.value:''; }
+function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+</script>
+</body>
+</html>
