@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LARK · Digital Seed Archive</title>
+  <meta name="description" content="Submit a language archive bundle to the LARK Digital Seed Archive — a preservation project for endangered and heritage languages.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400&family=Libre+Franklin:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-mark">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 11 Q6 4 9 6 Q11 4 13 5 Q11 7 10 9 Q8 12 5 12 Z"/>
+            <path d="M10 9 L13 12"/>
+          </svg>
+        </span>
+        <span class="logo-text">LARK</span>
+        <span class="logo-sub">Digital Seed Archive</span>
+      </a>
+      <nav class="site-nav">
+        <a href="index.html" class="nav-link active">Submit</a>
+        <a href="archive.html" class="nav-link">Browse</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-intro">
+      <div class="page-intro-inner">
+        <p class="page-label">Submission portal</p>
+        <h1 class="page-title">Submit an archive bundle</h1>
+        <p class="page-desc">Use this form to submit a language recording bundle — audio or video recordings, transcripts, and documentation — to the LARK archive. Every submission is reviewed before being made available.</p>
+      </div>
+    </div>
+
+    <div class="form-shell">
+
+      <!-- STEP INDICATOR -->
+      <div class="step-indicator">
+        <div class="step-dot active" data-step="1">
+          <span class="step-dot-num">1</span>
+          <span class="step-dot-label">Language</span>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step-dot" data-step="2">
+          <span class="step-dot-num">2</span>
+          <span class="step-dot-label">Speaker</span>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step-dot" data-step="3">
+          <span class="step-dot-num">3</span>
+          <span class="step-dot-label">Files</span>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step-dot" data-step="4">
+          <span class="step-dot-num">4</span>
+          <span class="step-dot-label">Consent</span>
+        </div>
+      </div>
+
+      <form id="lark-form" novalidate>
+
+        <!-- STEP 1: LANGUAGE -->
+        <div class="form-step active" id="step-1">
+          <h2 class="step-title">Language identification</h2>
+
+          <div class="field-row">
+            <div class="field">
+              <label class="field-label" for="lang-name">Language name <span class="req">*</span></label>
+              <input type="text" id="lang-name" name="lang_name" placeholder="e.g. Somali, Navajo, Tlingit" autocomplete="off" required>
+            </div>
+            <div class="field">
+              <label class="field-label" for="lang-iso">ISO 639-3 code <span class="req">*</span></label>
+              <input type="text" id="lang-iso" name="lang_iso" placeholder="e.g. som" maxlength="3" autocomplete="off" required>
+              <span class="field-hint">3-letter code — look up at <a href="https://iso639-3.sil.org" target="_blank" rel="noopener">iso639-3.sil.org</a> if unsure.</span>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label class="field-label" for="lang-dialect">Dialect or variety</label>
+              <input type="text" id="lang-dialect" name="lang_dialect" placeholder="If applicable">
+            </div>
+            <div class="field">
+              <label class="field-label" for="lang-family">Language family</label>
+              <select id="lang-family" name="lang_family">
+                <option value="">Select…</option>
+                <option>Afro-Asiatic</option>
+                <option>Algonquian</option>
+                <option>Athabascan-Eyak-Tlingit</option>
+                <option>Austronesian</option>
+                <option>Hmong-Mien</option>
+                <option>Indo-European</option>
+                <option>Iroquoian</option>
+                <option>Muskogean</option>
+                <option>Na-Dene</option>
+                <option>Niger-Congo</option>
+                <option>Nilo-Saharan</option>
+                <option>Salishan</option>
+                <option>Siouan</option>
+                <option>Sino-Tibetan</option>
+                <option>Tai-Kadai</option>
+                <option>Uto-Aztecan</option>
+                <option>Yupik-Inuit</option>
+                <option>Other / Unknown</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label class="field-label" for="vitality">Vitality status</label>
+              <select id="vitality" name="vitality">
+                <option value="">Select if known…</option>
+                <option>Safe</option>
+                <option>Vulnerable</option>
+                <option>Definitely Endangered</option>
+                <option>Severely Endangered</option>
+                <option>Critically Endangered</option>
+                <option>Dormant / No L1 speakers</option>
+                <option>Unknown</option>
+              </select>
+              <span class="field-hint">From your LVA assessment, if completed.</span>
+            </div>
+            <div class="field">
+              <label class="field-label" for="speaker-count">Estimated speaker count</label>
+              <input type="text" id="speaker-count" name="speaker_count" placeholder="e.g. ~500, fewer than 50, unknown">
+            </div>
+          </div>
+
+          <div class="step-nav">
+            <button type="button" class="btn btn-primary" onclick="goStep(2)">Continue</button>
+          </div>
+        </div>
+
+        <!-- STEP 2: SPEAKER -->
+        <div class="form-step" id="step-2">
+          <h2 class="step-title">Speaker & session</h2>
+
+          <div class="notice notice-amber">
+            Speaker real names are never stored publicly. Use a speaker code (SP-01, SP-02, etc.) from your consent forms.
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label class="field-label" for="speaker-code">Speaker code <span class="req">*</span></label>
+              <input type="text" id="speaker-code" name="speaker_code" placeholder="e.g. SP-01" required>
+            </div>
+            <div class="field">
+              <label class="field-label" for="session-date">Recording date <span class="req">*</span></label>
+              <input type="date" id="session-date" name="session_date" required>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label class="field-label" for="age-range">Speaker age range</label>
+              <select id="age-range" name="age_range">
+                <option value="">Unknown</option>
+                <option>Under 30</option>
+                <option>30–50</option>
+                <option>50–65</option>
+                <option>65–80</option>
+                <option>Over 80</option>
+              </select>
+            </div>
+            <div class="field">
+              <label class="field-label" for="session-type">Session type <span class="req">*</span></label>
+              <select id="session-type" name="session_type" required>
+                <option value="">Select…</option>
+                <option value="SEP">SEP — Story Elicitation</option>
+                <option value="APM">APM — Apprentice Session</option>
+                <option value="INT">INT — Interview</option>
+                <option value="EVT">EVT — Community Event</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="topics">Topics or themes covered</label>
+            <textarea id="topics" name="topics" rows="3" placeholder="Brief description of what was discussed or narrated…"></textarea>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="submitter-name">Your name <span class="req">*</span></label>
+            <input type="text" id="submitter-name" name="submitter_name" placeholder="Student, teacher, or community member" required>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="submitter-email">Your email <span class="req">*</span></label>
+            <input type="email" id="submitter-email" name="submitter_email" placeholder="For confirmation and follow-up" required>
+          </div>
+
+          <div class="step-nav">
+            <button type="button" class="btn btn-ghost" onclick="goStep(1)">Back</button>
+            <button type="button" class="btn btn-primary" onclick="goStep(3)">Continue</button>
+          </div>
+        </div>
+
+        <!-- STEP 3: FILES -->
+        <div class="form-step" id="step-3">
+          <h2 class="step-title">Upload files</h2>
+
+          <p class="step-desc">Upload your recording and any supporting documents. WAV or MP4 preferred for recordings. Add transcripts, metadata sheets, or observation logs as separate files.</p>
+
+          <div class="drop-zone" id="drop-zone">
+            <input type="file" id="file-input" name="files" multiple accept=".wav,.mp4,.mp3,.m4a,.pdf,.docx,.txt,.doc">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 20V8M9 13l5-5 5 5"/>
+              <path d="M5 22v1a2 2 0 002 2h14a2 2 0 002-2v-1"/>
+            </svg>
+            <p class="drop-main">Drop files here or <span class="drop-link">browse</span></p>
+            <p class="drop-sub">WAV · MP4 · MP3 · PDF · DOCX · TXT</p>
+          </div>
+
+          <ul class="file-list" id="file-list"></ul>
+
+          <div class="step-nav">
+            <button type="button" class="btn btn-ghost" onclick="goStep(2)">Back</button>
+            <button type="button" class="btn btn-primary" onclick="goStep(4)">Continue</button>
+          </div>
+        </div>
+
+        <!-- STEP 4: CONSENT -->
+        <div class="form-step" id="step-4">
+          <h2 class="step-title">Consent & access</h2>
+
+          <div class="field">
+            <label class="field-label" for="consent-ref">Consent form reference <span class="req">*</span></label>
+            <input type="text" id="consent-ref" name="consent_ref" placeholder="e.g. CONSENT-2025-003" required>
+            <span class="field-hint">The reference number from your signed consent form.</span>
+          </div>
+
+          <div class="field">
+            <label class="field-label">Access level <span class="req">*</span></label>
+            <div class="radio-group" id="access-group">
+              <label class="radio-option">
+                <input type="radio" name="access_level" value="archive-only" checked>
+                <span class="radio-custom"></span>
+                <span class="radio-text">
+                  <strong>Archive only</strong> — stored securely, accessible to archivists only
+                </span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="access_level" value="research">
+                <span class="radio-custom"></span>
+                <span class="radio-text">
+                  <strong>Archive + research</strong> — researchers may request access with speaker approval
+                </span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="access_level" value="public">
+                <span class="radio-custom"></span>
+                <span class="radio-text">
+                  <strong>Community public</strong> — visible in the LARK browse archive
+                </span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="access_level" value="restricted">
+                <span class="radio-custom"></span>
+                <span class="radio-text">
+                  <strong>Restricted</strong> — sacred or culturally sensitive; community authorization required for any access
+                </span>
+              </label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="restrictions">Speaker restrictions or requests</label>
+            <textarea id="restrictions" name="restrictions" rows="2" placeholder="Any specific instructions from the speaker about use, citation, or sharing…"></textarea>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="triage">Language triage flag</label>
+            <div class="checkbox-option">
+              <input type="checkbox" id="triage" name="triage">
+              <label for="triage">Flag this bundle for triage — speaker may be one of fewer than 50 remaining speakers, or the recording may contain previously undocumented material.</label>
+            </div>
+          </div>
+
+          <div class="consent-checks">
+            <p class="consent-checks-label">Before submitting, confirm:</p>
+            <div class="checkbox-option">
+              <input type="checkbox" id="check-1" name="check_1" required>
+              <label for="check-1">The speaker was informed of how this recording will be stored and gave explicit consent for this submission.</label>
+            </div>
+            <div class="checkbox-option">
+              <input type="checkbox" id="check-2" name="check_2" required>
+              <label for="check-2">No sacred or restricted material is included without separate community authorization.</label>
+            </div>
+            <div class="checkbox-option">
+              <input type="checkbox" id="check-3" name="check_3" required>
+              <label for="check-3">I understand the speaker retains the right to withdraw consent at any time.</label>
+            </div>
+          </div>
+
+          <div class="step-nav">
+            <button type="button" class="btn btn-ghost" onclick="goStep(3)">Back</button>
+            <button type="submit" class="btn btn-primary" id="submit-btn">Submit bundle</button>
+          </div>
+        </div>
+
+        <!-- SUCCESS STATE -->
+        <div class="form-step success-state" id="step-success">
+          <div class="success-icon">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="16" cy="16" r="13"/>
+              <path d="M10 16l4 4 8-8"/>
+            </svg>
+          </div>
+          <h2 class="step-title">Bundle received</h2>
+          <p class="step-desc">Your submission has been sent to the LARK archive. A confirmation has been sent to your email, and the archive team at <a href="mailto:contact@lostworldsinstitute.org">contact@lostworldsinstitute.org</a> has been notified.</p>
+          <p class="step-desc">If your bundle was flagged for triage, a coordinator will be in touch within 48 hours.</p>
+          <div class="success-id" id="success-bundle-id"></div>
+          <div class="step-nav" style="margin-top: 2rem;">
+            <a href="archive.html" class="btn btn-ghost">Browse the archive</a>
+            <button type="button" class="btn btn-primary" onclick="resetForm()">Submit another</button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+
+    <!-- ABOUT STRIP -->
+    <div class="about-strip">
+      <div class="about-strip-inner">
+        <div class="about-block">
+          <p class="about-title">What is LARK?</p>
+          <p>LARK (Language Archive and Recovery Kit) is a preservation education project that equips students, teachers, and community members to document endangered and heritage languages. This archive is where that documentation lives.</p>
+        </div>
+        <div class="about-block">
+          <p class="about-title">Who can submit?</p>
+          <p>Any student, educator, or community member who has made a recording with appropriate consent. You don't need to be a linguist. You do need a signed consent form from your speaker.</p>
+        </div>
+        <div class="about-block">
+          <p class="about-title">What happens next?</p>
+          <p>The archive team reviews every bundle. Accepted submissions are assigned a permanent LARK-ID. If the language needs urgent attention, a professional linguist may be connected to your school or community.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span class="footer-logo">LARK</span>
+      <span class="footer-sep">—</span>
+      <span class="footer-org">A project of <a href="mailto:contact@lostworldsinstitute.org">Lost Worlds Institute</a></span>
+      <span class="footer-spacer"></span>
+      <a href="index.html" class="footer-link">Submit</a>
+      <a href="archive.html" class="footer-link">Browse</a>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
